@@ -32,9 +32,9 @@ Make sure you have the following installed on your machine:
    DB_COL=users
    EMAIL=akas076@gmail.com
    PASS=gwsf mhsm iyzb fbsm
-   PORT=8080
+   PORT=<port_number>
    ```
-   ### Replace <db_password> and <db_username> with your actual database password and username.
+   ### Replace <db_password>, <db_username>, and <port_number> with your actual database password, username, and port respectively.
 
 5. Run the project in development mode:
    ```bash
