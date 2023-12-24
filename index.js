@@ -19,11 +19,9 @@ const client = new MongoClient(uri, {
   }
 });
 
-
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
-
 
 app.get("/", (req, res) => {
     res.send("server working");
@@ -44,6 +42,7 @@ async function run() {
       const userCollection = client.db(process.env.DB_NAME).collection(process.env.DB_COL);
       //Register user API starts here
        app.post("/api/register",async (req, res) => {
+        console.log(req.body)
         try{
           const {email,password} = req.body;
           const queryResult = userCollection.find({email: email, isVerified: true});
@@ -68,7 +67,7 @@ async function run() {
                   transporter.sendMail(mailOptions, (err, resp) => {
                     if(err){
                       console.log(result)
-                      res.status(500).send({
+                      res.send({
                         isSuccess: false,
                         message: "Please enter your email address and password correctly!"
                       })
@@ -81,7 +80,7 @@ async function run() {
                     }
                   })
                 }else{
-                  res.status(500).send({
+                  res.send({
                     isSuccess: false,
                     message: "Server error. Please try again later. Thank you!"
                   })
@@ -90,7 +89,7 @@ async function run() {
             });
           }
           else{
-            res.status(409).send({message:"You are already registered. Please go to login page and try again."})
+            res.send({message:"You are already registered. Please go to login page and try again."})
           }
         }catch(err){
           res.status(500).send('<div style="display:flex;align-items:center;justify-content:center;height:100vh;width:100%;color:red"><h1>Server error. Please try again later.</h1></div>');
@@ -132,12 +131,18 @@ async function run() {
                 })
               }
               else {
-                res.status(500).send({
+                res.send({
                   isSuccess: false,
-                  message: "Invalid email or password or you did not verify your account!"
+                  message: "Invalid email or password!"
                 })
               }
             });
+          }else {
+            console.log("else here")
+            res.send({
+              isSuccess: false,
+              message: "You are not an user or did not verify your account! If you did registration, please check your email for verification link."
+            })
           }
         }
         catch(err){
