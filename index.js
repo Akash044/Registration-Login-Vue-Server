@@ -59,7 +59,7 @@ async function run() {
                 const result = await userCollection.insertOne(userInfo); // insert the current user
 
                 if(result.acknowledged){// insert has successfully done
-                  //mail information containing the verified link
+                  //mail information containing the verification link
                   let mailOptions = {
                     from: process.env.EMAIL,
                     to: email,
